@@ -1,0 +1,41 @@
+.product_header{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:35px;
+    text-align:center;
+  }
+
+.product_d{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:25px;
+    width:60%;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.product_p_img{
+    margin-left:130px;
+    padding:10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.button-holder{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.product-page-button{
+    width:200px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size:25px;
+}
+
+.table-image{
+    object-fit: contain;
+    width:200px;
+    height:200px;
+}

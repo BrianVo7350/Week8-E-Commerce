@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="product_header">{{product.product_name}}</h1>
+
+<img class="product_p_img" src="{{product.image_url}}" width="450" height="300">
+
+
+<p class="product_d">{{product.description}}</p>
+<p class="product_d">Price: ${{"{:,.2f}".format(product.price)}}</p>
+
+
+{% if current_user.is_authenticated %}
+
+<div class="button-holder">
+    <a href="/additem/{{product.id}}" class='btn btn-success product-page-button'>Add To Cart</a>
+</div>
+
+{% endif %}
+
+{% endblock %}

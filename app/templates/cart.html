@@ -1,0 +1,36 @@
+{% if not current_user.cart_items %}
+<p>You don't have any items in your cart</p>
+{% else %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Photo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price Per Unit</th>
+            <th scope="col">Remove From Cart</th>
+        </tr>
+    </thead>
+    <tbody class="align-middle">
+        {%for cart_item in current_user.cart_items%}
+        <tr>
+            <td><img class="table-image" src="{{cart_item.product.image_url}}"></td>
+            <td> <a href="product/{{cart_item.product.id}}">{{cart_item.product.product_name}}</a></td>
+            <td>{{cart_item.item_quantity}}</td>
+            <td>${{"{:,.2f}".format(cart_item.product.price)}}</td>
+            <td><a href="removeitem/{{cart_item.product.id}}" class="btn btn-danger">Remove 1</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br><br>
+
+<div class="button-holder">
+    <a href="checkout" class='btn btn-success product-page-button'>Checkout</a>
+    <br>
+    <a href="emptycart" class='btn btn-danger product-page-button'>Remove All Items From Cart</a>
+</div>
+{% endif %}
+
+{% endblock %}
