@@ -4,7 +4,8 @@ from config import Config
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from app.auth.auth_routes import auth
-from flask import CORS
+from .api import api
+from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -22,6 +23,9 @@ login_manager.login_view = 'auth.loginPage'
 
 cors.init_app(app)
 app.register_blueprint(auth)
+app.register_blueprint(api)
+
+
 
 from . import routes
 from . import models

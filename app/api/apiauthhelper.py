@@ -1,6 +1,6 @@
 from flask import request
 from werkzeug.security import check_password_hash
-from ...models import User
+from ..models import Users
 import base64
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 
@@ -9,14 +9,14 @@ token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
 def verify_password(username, password):
-    user = User.query.filter_by(username=username).first()
+    user = Users.query.filter_by(username=username).first()
     if user:
         if check_password_hash(user.password, password):
             return user
         
 @token_auth.verify_token
 def verify_token(token):
-    user = User.query.filter_by(apitoken=token).first()
+    user = Users.query.filter_by(apitoken=token).first()
     if user:
         return user
 
@@ -41,7 +41,7 @@ def basic_auth_required(func):
                 'status': 'not ok',
                 'message': "Please include the header Authorization with Basic Auth"
             }
-        user = User.query.filter_by(username=username).first()
+        user = Users.query.filter_by(username=username).first()
         if user:
             if check_password_hash(user.password, password):
                 return func(user=user, *arg, **kwargs)
@@ -77,7 +77,7 @@ def token_auth_required(func):
                 'status': 'not ok',
                 'message': "Please include the header Authorization with Token Auth using a Bearer Token"
             }
-        user = User.query.filter_by(apitoken=token).first()
+        user = Users.query.filter_by(apitoken=token).first()
         if user:
             return func(user=user, *arg, **kwargs)
         else:

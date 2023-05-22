@@ -1,52 +1,19 @@
 from . import api
-from models import Product, Carts, Users, db
-from apiauthhelper import token_auth, basic_auth
+from ..models import Product, Carts, Users, db
+from .apiauthhelper import token_auth, basic_auth
 from flask import request, flash, url_for, redirect, render_template
 from flask_login import current_user
+#import stripe
+import os
+
+
+FRONT_END_URL = os.environ.get('FRONT_END_URL')
+
 
 # @app.route('/')
 # def homePage():
 #     all_products = Product.query.all()
 #     return render_template('index.html',all_products=all_products)
-
-@api.post('/signup')
-def signUpAPI():
-    data = request.json
-
-    username = data['username']
-    email = data['email']
-    password = data['password']
-
-    user = Users.query.filter_by(username = username).first()
-    if user:
-        return {
-            'status': 'not ok',
-            'message': 'Please choose a different username.'
-        }, 400
-    user = Users.query.filter_by(email = email).first()
-    if user:
-        return {
-            'status': 'not ok',
-            'message': 'That email is already in use.'
-        }, 400
-
-    user = Users(username, email, password)
-    user.saveToDB()
-    return {
-        'status': 'ok',
-        'message': "You have successfully created an account."
-    }, 201
-
-
-@api.post('/login')
-@basic_auth.login_required
-def loginAPI():
-    return {
-        'status': 'ok',
-        'message': "You have successfully logged in.",
-        'data': basic_auth.current_user().to_dict()
-    }, 200
-
 
 
 api.get('/product/<int:product_id>')
@@ -160,4 +127,32 @@ def showMyCart():
     return render_template("cart.html")
 
 
+# @api.post('/checkout')
+# def checkout():
+#     try:
+#         data = request.form
+#         line_items = []
+#         for price, qty in data.items():
+#             line_items.append({
+#                 'price': price,
+#                 'quantity': qty
+#             })
+#         checkout_session = stripe.checkout.Session.create(
+#             # line_items=line_items,
+#             line_items=[{
+#                 "price_data": {
+#                     "currency": "usd",
+#                     "product_data": {"name": "IPHONE"},
+#                     "unit_amount": 2000,
+#                     "tax_behavior": "exclusive",
+#                 },
+#                 'quantity':1
+#             }],
+#             mode='payment',
+#             success_url=FRONT_END_URL + '?success=true',
+#             cancel_url=FRONT_END_URL + '?canceled=true',
+#         )
+#     except Exception as e:
+#         return str(e)
 
+#     return redirect(checkout_session.url, code=303)

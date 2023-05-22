@@ -12,6 +12,7 @@ class Users(db.Model,UserMixin):
     first_name = db.Column(db.String(50), nullable = False)
     last_name = db.Column(db.String(50))
     date_joined = db.Column(db.DateTime,nullable = False, default=datetime.utcnow())
+    # cart_items = db.Column(db.Integer)
     apitoken = db.Column(db.String, unique=True)
 
 
@@ -29,6 +30,7 @@ class Users(db.Model,UserMixin):
             'password' : self.password,
             'first_name' : self.first_name,
             'last_name' : self.last_name,
+            'cart_items' : self.cart_items,
             'apitoken' : self.apitoken
         }
 
@@ -42,7 +44,7 @@ class Users(db.Model,UserMixin):
         db.session.commit()
 
 class Product(db.Model):
-    id = db.Column(db.Integer, Primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(100), nullable = False, unique=True)
     price = db.Column(db.Float, nullable = False)
     description = db.Column(db.String(300), nullable = False)
@@ -76,10 +78,10 @@ class Carts(db.Model):
     item_quantity = db.Column(db.Integer,nullable=False)
     
     user_id = db.Column(db.Integer, db.ForeignKey(Users.id),nullable=False)
-    user = db.relationship("Users",back_populates="cart_items",foreign_keys=[user_id])
+    # user = db.relationship("Users",back_populates="cart_items",foreign_keys=[user_id])
     
-    product_id = db.Column(db.Integer, db.ForeignKey(Products.id),nullable=False)
-    product = db.relationship("Products",back_populates="associated_carts",foreign_keys=[product_id])
+    product_id = db.Column(db.Integer, db.ForeignKey(Product.id),nullable=False)
+    # product = db.relationship("Products",back_populates="associated_carts",foreign_keys=[product_id])
     
     def __init__(self, user_id, product_id, item_quantity):
         self.user_id = user_id

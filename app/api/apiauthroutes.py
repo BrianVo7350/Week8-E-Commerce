@@ -1,5 +1,5 @@
 from . import api
-from models import User
+from ..models import Users
 from flask import request
 from werkzeug.security import check_password_hash
 from .apiauthhelper import basic_auth
@@ -12,20 +12,20 @@ def signUpAPI():
     email = data['email']
     password = data['password']
 
-    user = User.query.filter_by(username = username).first()
+    user = Users.query.filter_by(username = username).first()
     if user:
         return {
             'status': 'not ok',
             'message': 'Please choose a different username.'
         }, 400
-    user = User.query.filter_by(email = email).first()
+    user = Users.query.filter_by(email = email).first()
     if user:
         return {
             'status': 'not ok',
             'message': 'That email is already in use.'
         }, 400
 
-    user = User(username, email, password)
+    user = Users(username, email, password)
     user.saveToDB()
     return {
         'status': 'ok',
