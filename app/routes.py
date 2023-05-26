@@ -113,17 +113,13 @@ def showMyCart():
 @app.route('/runcode')
 def runcode():
     
-    print(current_user.cart_items)
-    for cart_item in current_user.cart_items:
-        print(cart_item,cart_item.product_id,cart_item.item_quantity)
-    
     # CODE TO ADD PRODUCT TO DATABASE
-    # title = '85" Class QN90C Samsung Neo QLED 4K Smart TV (2023)'
-    # image_url = "https://image-us.samsung.com/SamsungUS/home/television-home-theater/tvs/03242023/QN90C_85_75_65_55.jpg?$product-details-jpg$"
-    # price = 4799.99
-    # description = "Some TVs just have it. They make everything look good—even hard stuff like 4K upscaling, weird viewing angles and daytime sports. But when it's Samsung Neo QLED 4K we're talking about, there's no need to be jealous. Because—thanks to its brilliant picture, dynamic audio and stellar design—it'll make you look good, too."
-    # product1 = Products(title,price,description,image_url)
-    # product1.saveToDB()
+    title = '85" Class QN90C Samsung Neo QLED 4K Smart TV (2023)'
+    image_url = "https://image-us.samsung.com/SamsungUS/home/television-home-theater/tvs/03242023/QN90C_85_75_65_55.jpg?$product-details-jpg$"
+    price = 4799.99
+    description = "Some TVs just have it. They make everything look good—even hard stuff like 4K upscaling, weird viewing angles and daytime sports. But when it's Samsung Neo QLED 4K we're talking about, there's no need to be jealous. Because—thanks to its brilliant picture, dynamic audio and stellar design—it'll make you look good, too."
+    product1 = Product(title,price,description,image_url)
+    product1.saveToDB()
     
     
     return redirect(url_for("homePage"))

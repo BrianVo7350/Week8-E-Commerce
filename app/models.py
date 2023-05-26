@@ -12,7 +12,6 @@ class Users(db.Model,UserMixin):
     first_name = db.Column(db.String(50), nullable = False)
     last_name = db.Column(db.String(50))
     date_joined = db.Column(db.DateTime,nullable = False, default=datetime.utcnow())
-    # cart_items = db.Column(db.Integer)
     apitoken = db.Column(db.String, unique=True)
 
 
@@ -47,7 +46,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(100), nullable = False, unique=True)
     price = db.Column(db.Float, nullable = False)
-    description = db.Column(db.String(300), nullable = False)
+    description = db.Column(db.String(400), nullable = False)
     image_url = db.Column(db.String)
 
     def __init__(self, product_name, price, description, image_url):

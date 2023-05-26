@@ -4,20 +4,17 @@ from flask import request
 from werkzeug.security import check_password_hash
 from .apiauthhelper import basic_auth
 
-@api.post('/signup')
+@api.post('/Signup')
 def signUpAPI():
     data = request.json
 
-    username = data['username']
+    first_name = data['first_name']
+    last_name = data['last_name']
     email = data['email']
     password = data['password']
+    print(data)
 
-    user = Users.query.filter_by(username = username).first()
-    if user:
-        return {
-            'status': 'not ok',
-            'message': 'Please choose a different username.'
-        }, 400
+    
     user = Users.query.filter_by(email = email).first()
     if user:
         return {
@@ -25,7 +22,7 @@ def signUpAPI():
             'message': 'That email is already in use.'
         }, 400
 
-    user = Users(username, email, password)
+    user = Users(first_name, last_name, email, password)
     user.saveToDB()
     return {
         'status': 'ok',
@@ -33,9 +30,14 @@ def signUpAPI():
     }, 201
 
 
-@api.post('/login')
+@api.post('/Login')
 @basic_auth.login_required
 def loginAPI():
+    # data = request.json
+
+    # email = data['email']
+    # password = data['password']
+
     return {
         'status': 'ok',
         'message': "You have successfully logged in.",
