@@ -13,6 +13,7 @@ db.init_app(app)
 migrate = Migrate(app,db)
 cors = CORS()
 
+
 login_manager = LoginManager(app)
 
 @login_manager.user_loader

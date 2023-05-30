@@ -8,8 +8,8 @@ basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
-def verify_password(username, password):
-    user = Users.query.filter_by(username=username).first()
+def verify_password(email, password):
+    user = Users.query.filter_by(email=email).first()
     if user:
         if check_password_hash(user.password, password):
             return user
@@ -28,9 +28,9 @@ def basic_auth_required(func):
             
             protocol, encoded_version = val.split()
             if protocol == 'Basic':
-                username_password = base64.b64decode(encoded_version.encode('ascii')).decode('ascii')
+                email_password = base64.b64decode(encoded_version.encode('ascii')).decode('ascii')
 
-                username, password = username_password.split(':')
+                email, password = email_password.split(':')
             else:
                 return {
                     'status': 'not ok',
@@ -41,7 +41,7 @@ def basic_auth_required(func):
                 'status': 'not ok',
                 'message': "Please include the header Authorization with Basic Auth"
             }
-        user = Users.query.filter_by(username=username).first()
+        user = Users.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
                 return func(user=user, *arg, **kwargs)
