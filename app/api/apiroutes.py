@@ -11,9 +11,9 @@ FRONT_END_URL = os.environ.get('FRONT_END_URL')
 stripe.api_key = os.environ.get('STRIPE_API_KEY')
 
 #SHOWS SINGLE PRODUCT WHEN CLICKED ON FIX THIS 
-@api.get('/product/<int:product_id>')
+@api.get('/Singleproduct/<int:product_id>')
 @basic_auth.login_required
-def GetproductAPI(product_id):
+def SingleproductAPI(product_id):
     product = Product.query.get(product_id)
     if product:
         return {
@@ -29,7 +29,8 @@ def GetproductAPI(product_id):
     
 
 @api.get('/addToCart/<int:product_id>')
-@basic_auth.login_required
+# @basic_auth.login_required
+@token_auth.login_required
 def addToCartAPI(product_id):
     user = token_auth.current_user()
     data = request.json
@@ -53,7 +54,7 @@ def addToCartAPI(product_id):
         }
 #SHOWS PRODUCTS FIX THIS
 @api.get('Singleproduct/<int:product_id>')
-def SingleproductAPI(product_id):
+def ProductsAPI(product_id):
     product = Product.query.get(product_id)
 
 
@@ -72,7 +73,8 @@ def SingleproductAPI(product_id):
     # return redirect(url_for("homePage"))
 
 @api.get('/removeFromCart/<int:product_id>')
-@basic_auth.login_required
+# @basic_auth.login_required
+@token_auth.login_required
 def removeFromCartAPI(product_id):
     product = Product.query.get(product_id)
     item = Carts.query.filter_by(user_id=Users.id).filter_by(product_id=product_id).first()

@@ -53,7 +53,7 @@ def basic_auth_required(func):
         else:
             return {
                 'status': 'not ok',
-                'message': "That username does not exist."
+                'message': "That email does not exist."
             }
     decorated.__name__ = func.__name__
     return decorated
