@@ -2,6 +2,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from secrets import token_hex
+from werkzeug.security import generate_password_hash, check_password_hash
 # Instantiate the database
 db = SQLAlchemy()
 
@@ -17,10 +18,16 @@ class Users(db.Model,UserMixin):
 
     def __init__(self, email, password, first_name,last_name):
         self.email = email
-        self.password = password
+        self.password = self.hash_password(password)
         self.first_name = first_name
         self.last_name = last_name
-        self.apitoken = token_hex(16) 
+        self.apitoken = token_hex(16)
+    
+    def hash_password(self, og_password):
+        return generate_password_hash(og_password)
+        
+    def check_hash_password(self, given_password):
+        return check_password_hash(self.password, given_password)
 
     def to_dict(self):
         return {
@@ -29,7 +36,7 @@ class Users(db.Model,UserMixin):
             'password' : self.password,
             'first_name' : self.first_name,
             'last_name' : self.last_name,
-            'cart_items' : self.cart_items,
+            # 'cart_items' : self.cart_items,
             'apitoken' : self.apitoken
         }
 

@@ -32,8 +32,8 @@ def SignUpAPI():
 
 @api.post('/Login')
 @basic_auth_required
-def LoginAPI():
-    data = requests.json
+def LoginAPI(user):
+    data = request.json
 
     email = data['email']
     password = data['password']

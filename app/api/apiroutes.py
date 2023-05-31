@@ -145,8 +145,8 @@ def checkout():
                 'quantity':1
             }],
             mode='payment',
-            success_url=FRONT_END_URL + '?success=true',
-            cancel_url=FRONT_END_URL + '?canceled=true',
+            success_url=FRONT_END_URL + '?/cart?success=true',
+            cancel_url=FRONT_END_URL + '?/cart?canceled=true',
         )
     except Exception as e:
         return str(e)
