@@ -7,8 +7,8 @@ import stripe
 import os
 
 
-FRONT_END_URL = os.environ.get('FRONT_END_URL')
-stripe.api_key = os.environ.get('STRIPE_API_KEY')
+
+
 
 #SHOWS SINGLE PRODUCT WHEN CLICKED ON FIX THIS 
 @api.get('/Singleproduct/<int:product_id>')
@@ -119,6 +119,8 @@ def CartAPI(user):
         'cart': [Product.query.get(c.product_id).to_dict() for c in Carts.query.filter_by(user_id=user.id).all()]
     }
 
+
+FRONT_END_URL = os.environ.get('FRONT_END_URL')
 stripe.api_key = os.environ.get('STRIPE_API_KEY')
 @api.post('/checkout')
 def checkout():
@@ -141,8 +143,8 @@ def checkout():
                 'quantity':1
             }],
             mode='payment',
-            success_url=FRONT_END_URL + '?/cart?success=true',
-            cancel_url=FRONT_END_URL + '?/cart?canceled=true',
+            success_url=FRONT_END_URL + '/apiroutes?success=true',
+            cancel_url=FRONT_END_URL + '/apiroutes?canceled=true',
         )
     except Exception as e:
         return str(e)
